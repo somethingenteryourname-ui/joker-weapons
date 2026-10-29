@@ -1,0 +1,26 @@
+# Joker Weapons settings. Change these, then run /jokerweapons reload
+
+storm-mace:
+  # Ticks between wind charges (20 ticks = 1 second). A normal wind charge is 10.
+  wind-charge-cooldown-ticks: 10
+  # How fast the wind charge flies (vanilla throw speed is 1.5)
+  wind-charge-speed: 1.5
+  # Extra reach for hitting players/mobs while holding it. Normal reach is 3,
+  # and the game caps it at 64, so 61 is the maximum.
+  extra-entity-reach: 61
+
+orbital-spear:
+  sharpness-level: 6
+  # How far away you can aim the strike (blocks)
+  target-range: 160
+  # Seconds before you can use the strike again
+  cooldown-seconds: 30
+  # How long the red beam shows before the TNT launches (ticks)
+  beam-ticks: 40
+  beam-height: 100
+  # TNT rings around the target: distance from the center, and TNT in that ring
+  ring-radii: [0, 4, 8, 12]
+  ring-tnt: [1, 8, 14, 20]
+  tnt-fuse-ticks: 50
+  # false = the TNT damages entities but doesn't break blocks
+  break-blocks: true

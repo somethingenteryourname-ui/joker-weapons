@@ -1,0 +1,23 @@
+name: JokerWeapons
+version: '${project.version}'
+main: me.jokerweapons.JokerWeaponsPlugin
+api-version: '1.21'
+description: Storm Mace (wind charge + max reach) and Orbital Spear (Sharpness VI + orbital strike). Idea by Thejoker56.
+authors: [Vorinity_]
+
+commands:
+  jokerweapons:
+    description: Give the Storm Mace or Orbital Spear, or reload the config
+    usage: /jokerweapons <give <mace|spear> [player]|reload>
+    aliases: [jw]
+
+permissions:
+  jokerweapons.give:
+    description: Use /jokerweapons give
+    default: op
+  jokerweapons.reload:
+    description: Use /jokerweapons reload
+    default: op
+  jokerweapons.use:
+    description: Use the weapons' abilities
+    default: true

@@ -1,44 +1,50 @@
-# Automatically build the project and run any configured tests for every push
-# and submitted pull request. This can help catch issues that only occur on
-# certain platforms or Java versions, and provides a first line of defence
-# against bad commits.
+name: Build Minecraft Plugin
 
-name: build
-on: [pull_request, push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    name: Build Plugin
+    runs-on: ubuntu-latest
+
     steps:
-      - name: checkout repository
-        uses: actions/checkout@v6
-      - name: validate gradle wrapper
-        uses: gradle/actions/wrapper-validation@v6
-      - name: setup jdk
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
         uses: actions/setup-java@v5
         with:
-          java-version: '25'
-          distribution: 'microsoft'
-      - name: make gradle wrapper executable
-        run: chmod +x ./gradlew
-      - name: build
-        run: ./gradlew build
-      - name: capture build artifacts
-        uses: actions/upload-artifact@v7
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn -B clean package
+
+      - name: Upload plugin JAR
+        uses: actions/upload-artifact@v4
         with:
-          name: Artifacts
-          path: build/libs/
-      - name: publish jar as a release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+          name: Minecraft-Plugin
+          path: target/*.jar
+
+      - name: Publish jar as a release
+        if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG="build-${{ github.run_number }}"
-          gh release create "$TAG" build/libs/*.jar \
+          TAG="plugin-build-${{ github.run_number }}"
+          gh release create "$TAG" target/JokerWeapons-*.jar \
             --repo "${{ github.repository }}" \
-            --title "Joker Weapons (build ${{ github.run_number }})" \
-            --notes "Fabric 1.21.11. Drop the jar in your mods folder with Fabric API." \
+            --title "Joker Weapons Plugin (build ${{ github.run_number }})" \
+            --notes "Paper 1.21.11 plugin. Put the jar in your server's plugins folder." \
             --latest
