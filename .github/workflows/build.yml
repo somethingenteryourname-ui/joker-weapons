@@ -6,6 +6,9 @@
 name: build
 on: [pull_request, push]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -28,3 +31,14 @@ jobs:
         with:
           name: Artifacts
           path: build/libs/
+      - name: publish jar as a release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="build-${{ github.run_number }}"
+          gh release create "$TAG" build/libs/*.jar \
+            --repo "${{ github.repository }}" \
+            --title "Joker Weapons (build ${{ github.run_number }})" \
+            --notes "Fabric 1.21.11. Drop the jar in your mods folder with Fabric API." \
+            --latest
