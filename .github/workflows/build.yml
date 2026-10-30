@@ -32,13 +32,13 @@ jobs:
           name: Artifacts
           path: build/libs/
       - name: publish jar as a release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG="build-${{ github.run_number }}"
+          TAG="blue-glitch-test-${{ github.run_number }}"
           gh release create "$TAG" build/libs/*.jar \
             --repo "${{ github.repository }}" \
             --title "Blue Glitch Slots (build ${{ github.run_number }})" \
             --notes "Fabric 1.21.11. Client mod. Put the jar in your mods folder with Fabric API." \
-            --latest
+            --prerelease --latest=false
