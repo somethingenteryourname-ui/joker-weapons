@@ -1,0 +1,23 @@
+{
+	"schemaVersion": 1,
+	"id": "blueglitch",
+	"version": "${version}",
+	"name": "Blue Glitch Slots",
+	"description": "Items without an enchant glint get a blue glitch animation in their slot, with a scan wave that runs across the hotbar. Pairs with the Blue Glitch resource pack.",
+	"authors": [
+		"Vorinity_"
+	],
+	"license": "All-Rights-Reserved",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"com.vorinity.blueglitch.BlueGlitchClient"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.20.1",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
